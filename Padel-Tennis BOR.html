@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ПАДЕЛ-ТЕННИС БОР · Играй в лесу. Расти как спортсмен.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#1a3a1a;
+  --green-deep:#122a12;
+  --green-soft:#2a5a2a;
+  --lime:#a8d878;
+  --lime-deep:#7ab648;
+  --cream:#f5f5f0;
+  --cream-2:#ebebe3;
+  --ink:#0e1a0e;
+  --ink-2:#1a2a1a;
+  --muted:#6b7a6b;
+  --line:rgba(26,58,26,.12);
+  --line-light:rgba(245,245,240,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.6;
+  font-weight:400;
+  overflow-x:hidden;
+  cursor:none;
+}
+@media (hover:none){body{cursor:auto}}
+
+/* ─── CUSTOM CURSOR ─────────────────── */
+.cursor{
+  position:fixed;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:var(--green);
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .25s ease, height .25s ease, background .25s ease, opacity .2s;
+  mix-blend-mode:multiply;
+}
+.cursor.ring{
+  width:36px;height:36px;
+  background:transparent;
+  border:1.5px solid var(--green);
+  transition:width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1), opacity .3s;
+}
+.cursor.on-dark{background:var(--lime);mix-blend-mode:normal}
+.cursor.on-dark.ring{background:transparent;border-color:var(--lime)}
+@media (hover:none){.cursor{display:none}}
+
+::selection{background:var(--lime);color:var(--green)}
+
+/* ─── NAV ─────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:24px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  mix-blend-mode:difference;
+}
+nav .brand{
+  font-family:'Unbounded',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:var(--cream);
+  text-transform:uppercase;
+}
+nav ul{
+  list-style:none;
+  display:flex;gap:36px;
+}
+nav a{
+  color:var(--cream);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.04em;
+  position:relative;
+  padding:4px 0;
+}
+nav a::after{
+  content:'';
+  position:absolute;left:0;bottom:0;
+  width:0;height:1px;
+  background:var(--lime);
+  transition:width .35s cubic-bezier(.2,.8,.2,1);
+}
+nav a:hover::after{width:100%}
+nav .cta{
+  background:var(--lime);
+  color:var(--green);
+  padding:10px 20px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  mix-blend-mode:normal;
+  transition:transform .3s, background .3s;
+}
+nav .cta:hover{background:#fff;transform:translateY(-1px)}
+nav .cta::after{display:none}
+
+@media (max-width:780px){
+  nav{padding:20px 24px}
+  nav ul{display:none}
+}
+
+/* ─── HERO ─────────────────── */
+.hero{
+  background:var(--green);
+  color:var(--cream);
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:120px 32px 80px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 80% 90%, rgba(168,216,120,.08), transparent 55%),
+    radial-gradient(ellipse at 15% 20%, rgba(255,255,255,.03), transparent 50%);
+  pointer-events:none;
+}
+.hero .crest{
+  width:140px;height:auto;
+  margin-bottom:40px;
+  opacity:0;transform:translateY(20px);
+  animation:rise 1.2s .2s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.hero h1{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(48px,9vw,128px);
+  font-weight:800;
+  line-height:.92;
+  letter-spacing:-.04em;
+  margin-bottom:36px;
+  text-transform:uppercase;
+  opacity:0;transform:translateY(30px);
+  animation:rise 1.2s .4s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.hero h1 .accent{
+  display:block;
+  color:var(--lime);
+  font-weight:400;
+  font-style:italic;
+  text-transform:none;
+  letter-spacing:-.03em;
+  font-size:.42em;
+  margin-top:.3em;
+  font-family:'Unbounded',sans-serif;
+}
+.hero .tagline{
+  font-size:clamp(16px,1.4vw,20px);
+  font-weight:300;
+  letter-spacing:.02em;
+  max-width:420px;
+  color:rgba(245,245,240,.7);
+  margin-bottom:48px;
+  opacity:0;
+  animation:fade 1.5s .9s ease forwards;
+}
+.hero .scroll-hint{
+  position:absolute;
+  bottom:32px;left:50%;transform:translateX(-50%);
+  font-size:10px;font-weight:600;letter-spacing:.3em;
+  color:rgba(245,245,240,.4);
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:14px;
+  opacity:0;animation:fade 1.5s 1.4s ease forwards;
+}
+.hero .scroll-hint::before,
+.hero .scroll-hint::after{
+  content:'';
+  width:32px;height:1px;
+  background:rgba(245,245,240,.25);
+}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+@keyframes fade{to{opacity:1}}
+
+/* ─── REVEAL ─────────────────── */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal.d1{transition-delay:.1s}
+.reveal.d2{transition-delay:.2s}
+.reveal.d3{transition-delay:.3s}
+.reveal.d4{transition-delay:.4s}
+
+/* ─── SECTION CHROME ─────────────────── */
+section{padding:140px 48px;position:relative}
+@media (max-width:780px){section{padding:80px 24px}}
+
+.section-label{
+  font-family:'Manrope',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:32px;
+  display:flex;align-items:center;gap:14px;
+}
+.section-label::before{
+  content:'';
+  width:24px;height:1px;
+  background:var(--green);
+}
+.section-label.on-dark{color:rgba(245,245,240,.5)}
+.section-label.on-dark::before{background:var(--lime)}
+
+h2.title{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(40px,6vw,84px);
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.035em;
+  margin-bottom:48px;
+  text-transform:uppercase;
+}
+h2.title .it{
+  display:block;
+  font-style:italic;
+  font-weight:400;
+  text-transform:none;
+  letter-spacing:-.025em;
+  color:var(--green-soft);
+  font-size:.65em;
+  margin-top:.15em;
+}
+
+/* ─── DIRECTIONS ─────────────────── */
+.directions{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1px;
+  background:var(--line);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.dir{
+  background:var(--cream);
+  padding:80px 48px;
+  display:grid;
+  grid-template-columns:1fr 1.5fr 1fr;
+  align-items:center;
+  gap:48px;
+  position:relative;
+  transition:background .5s;
+  cursor:none;
+}
+.dir:hover{background:var(--cream-2)}
+.dir .num{
+  font-family:'Unbounded',sans-serif;
+  font-size:14px;font-weight:700;
+  color:var(--muted);
+  letter-spacing:.3em;
+}
+.dir .name{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(48px,7vw,96px);
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.04em;
+  text-transform:uppercase;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.dir:hover .name{transform:translateX(20px)}
+.dir .desc{
+  font-size:15px;
+  line-height:1.65;
+  color:var(--muted);
+  max-width:260px;
+  margin-left:auto;
+}
+.dir .arrow{
+  position:absolute;
+  right:48px;top:50%;
+  transform:translateY(-50%) translateX(-12px);
+  opacity:0;
+  font-family:'Unbounded',sans-serif;
+  font-size:32px;
+  color:var(--green);
+  transition:opacity .4s, transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.dir:hover .arrow{opacity:1;transform:translateY(-50%) translateX(0)}
+@media (max-width:780px){
+  .dir{grid-template-columns:1fr;padding:48px 24px;gap:24px}
+  .dir .desc{margin-left:0}
+}
+
+/* ─── COACHES ─────────────────── */
+.coaches-section{
+  background:var(--cream);
+}
+.coaches-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
+  margin-top:48px;
+}
+.coach{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:40px;
+  position:relative;
+  display:flex;flex-direction:column;
+  min-height:380px;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s, border-color .3s;
+}
+.coach:hover{
+  transform:translateY(-4px);
+  box-shadow:0 30px 60px -20px rgba(26,58,26,.15);
+  border-color:transparent;
+}
+.coach .initials{
+  font-family:'Unbounded',sans-serif;
+  font-size:120px;
+  font-weight:800;
+  line-height:1;
+  letter-spacing:-.05em;
+  color:var(--green);
+  margin-bottom:24px;
+  transition:color .3s;
+}
+.coach:hover .initials{color:var(--lime-deep)}
+.coach .name{
+  font-family:'Unbounded',sans-serif;
+  font-size:18px;
+  font-weight:600;
+  letter-spacing:-.01em;
+  margin-bottom:6px;
+  text-transform:uppercase;
+}
+.coach .spec{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--lime-deep);
+  margin-bottom:20px;
+}
+.coach .achievements{
+  list-style:none;
+  margin-top:auto;
+}
+.coach .achievements li{
+  font-size:14px;
+  color:var(--muted);
+  padding:6px 0 6px 18px;
+  position:relative;
+  line-height:1.5;
+  border-top:1px solid var(--line);
+}
+.coach .achievements li:first-child{border-top:none}
+.coach .achievements li::before{
+  content:'';
+  position:absolute;
+  left:0;top:14px;
+  width:6px;height:6px;
+  background:var(--lime-deep);
+  border-radius:50%;
+}
+@media (max-width:780px){
+  .coaches-grid{grid-template-columns:1fr;gap:16px}
+  .coach{padding:32px;min-height:auto}
+  .coach .initials{font-size:88px}
+}
+
+/* ─── PRICING ─────────────────── */
+.pricing-section{
+  background:var(--green);
+  color:var(--cream);
+}
+.pricing-section h2.title{color:var(--cream)}
+.pricing-section h2.title .it{color:var(--lime)}
+
+.toggle{
+  display:inline-flex;
+  background:rgba(245,245,240,.06);
+  border:1px solid var(--line-light);
+  border-radius:999px;
+  padding:5px;
+  margin-bottom:48px;
+}
+.toggle button{
+  background:none;border:none;
+  color:rgba(245,245,240,.55);
+  font-family:'Manrope',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.06em;
+  padding:11px 28px;
+  border-radius:999px;
+  cursor:none;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  text-transform:uppercase;
+}
+.toggle button.active{
+  background:var(--lime);
+  color:var(--green);
+}
+
+.price-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line-light);
+  border-top:1px solid var(--line-light);
+  border-bottom:1px solid var(--line-light);
+}
+.price-card{
+  background:var(--green);
+  padding:40px 32px;
+  display:flex;flex-direction:column;
+  min-height:280px;
+  transition:background .4s;
+}
+.price-card:hover{background:var(--green-deep)}
+.price-card .pc-label{
+  font-size:11px;font-weight:700;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(245,245,240,.5);
+  margin-bottom:24px;
+}
+.price-card .pc-name{
+  font-family:'Unbounded',sans-serif;
+  font-size:24px;font-weight:600;
+  letter-spacing:-.01em;
+  line-height:1.15;
+  margin-bottom:auto;
+  padding-bottom:32px;
+}
+.price-card .pc-price{
+  font-family:'Unbounded',sans-serif;
+  font-size:44px;
+  font-weight:700;
+  letter-spacing:-.03em;
+  line-height:1;
+  display:flex;align-items:baseline;gap:8px;
+}
+.price-card .pc-price .cur{font-size:20px;font-weight:400;color:rgba(245,245,240,.5)}
+.price-card .pc-meta{
+  font-size:12px;
+  color:rgba(245,245,240,.55);
+  margin-top:8px;
+  letter-spacing:.04em;
+}
+.price-card .pc-save{
+  display:inline-block;
+  font-size:11px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--lime);
+  margin-top:14px;
+}
+
+.price-row-title{
+  font-family:'Unbounded',sans-serif;
+  font-size:14px;font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--lime);
+  margin:80px 0 24px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--line-light);
+}
+.price-row-title:first-of-type{margin-top:0}
+
+.repost-badge{
+  margin-top:64px;
+  padding:32px 40px;
+  border:1px dashed var(--lime);
+  border-radius:0;
+  display:flex;align-items:center;justify-content:space-between;gap:32px;
+  flex-wrap:wrap;
+}
+.repost-badge .rb-text{
+  font-family:'Unbounded',sans-serif;
+  font-size:24px;
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+.repost-badge .rb-text .num{color:var(--lime)}
+.repost-badge .rb-sub{
+  font-size:13px;
+  color:rgba(245,245,240,.55);
+  max-width:380px;
+}
+
+@media (max-width:780px){
+  .price-grid{grid-template-columns:1fr}
+  .price-card{padding:32px 24px;min-height:auto}
+}
+
+/* ─── TOURNAMENTS ─────────────────── */
+.tournaments-section{background:var(--cream)}
+.tournament-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:32px;
+}
+.tournament-table th{
+  font-size:11px;font-weight:700;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:var(--muted);
+  text-align:left;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+.tournament-table th.right{text-align:right}
+.tournament-table td{
+  padding:28px 0;
+  border-bottom:1px solid var(--line);
+  vertical-align:middle;
+}
+.tournament-table td.format{
+  font-family:'Unbounded',sans-serif;
+  font-size:32px;
+  font-weight:700;
+  letter-spacing:-.025em;
+  width:25%;
+}
+.tournament-table td.duration{
+  font-size:14px;color:var(--muted);
+  width:25%;
+}
+.tournament-table td.desc{
+  font-size:14px;color:var(--ink-2);
+  width:30%;
+  line-height:1.5;
+}
+.tournament-table td.price{
+  font-family:'Unbounded',sans-serif;
+  font-size:24px;
+  font-weight:600;
+  letter-spacing:-.02em;
+  text-align:right;
+  width:20%;
+}
+.tournament-table td.price .c{font-size:14px;color:var(--muted);font-weight:400;margin-left:4px}
+.tournament-table tr{transition:background .3s}
+.tournament-table tbody tr:hover{background:var(--cream-2)}
+@media (max-width:780px){
+  .tournament-table thead{display:none}
+  .tournament-table tr{display:grid;grid-template-columns:1fr auto;gap:8px;padding:20px 0}
+  .tournament-table td{display:block;padding:0;border:none;width:auto !important}
+  .tournament-table td.format{font-size:24px;grid-column:1}
+  .tournament-table td.price{grid-column:2;font-size:20px;text-align:right}
+  .tournament-table td.duration,.tournament-table td.desc{grid-column:1/-1;font-size:13px}
+  .tournament-table tbody tr{border-bottom:1px solid var(--line)}
+}
+
+/* ─── ABOUT ─────────────────── */
+.about-section{
+  background:var(--green-deep);
+  color:var(--cream);
+  padding:160px 48px;
+  position:relative;
+  overflow:hidden;
+}
+.about-section h2.title{color:var(--cream)}
+.about-section h2.title .it{color:var(--lime)}
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:120px;
+  align-items:start;
+}
+.about-grid p{
+  font-size:18px;
+  line-height:1.75;
+  color:rgba(245,245,240,.75);
+  margin-bottom:24px;
+  font-weight:300;
+}
+.about-grid p strong{
+  color:var(--cream);
+  font-weight:600;
+}
+.facts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line-light);
+  border-top:1px solid var(--line-light);
+  border-bottom:1px solid var(--line-light);
+}
+.fact{
+  padding:32px 24px;
+  background:var(--green-deep);
+}
+.fact .num{
+  font-family:'Unbounded',sans-serif;
+  font-size:48px;
+  font-weight:700;
+  letter-spacing:-.04em;
+  color:var(--lime);
+  line-height:1;
+  margin-bottom:8px;
+}
+.fact .lbl{
+  font-size:11px;font-weight:600;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(245,245,240,.55);
+}
+@media (max-width:780px){
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .about-grid p{font-size:16px}
+}
+
+/* ─── CTA ─────────────────── */
+.cta-section{
+  background:var(--cream);
+  text-align:center;
+  padding:160px 48px;
+}
+.cta-section h2{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(56px,10vw,160px);
+  font-weight:700;
+  line-height:.92;
+  letter-spacing:-.05em;
+  text-transform:uppercase;
+  margin-bottom:48px;
+}
+.cta-section h2 .it{
+  display:block;
+  font-style:italic;font-weight:400;
+  text-transform:none;
+  letter-spacing:-.03em;
+  color:var(--green-soft);
+  font-size:.45em;
+  margin-top:.2em;
+}
+.cta-section .lead{
+  font-size:18px;
+  color:var(--muted);
+  max-width:520px;
+  margin:0 auto 56px;
+  line-height:1.65;
+}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:16px;
+  background:var(--green);
+  color:var(--cream);
+  padding:24px 40px;
+  border-radius:999px;
+  text-decoration:none;
+  font-family:'Manrope',sans-serif;
+  font-size:14px;font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), background .4s;
+  cursor:none;
+}
+.cta-btn:hover{
+  background:var(--lime);
+  color:var(--green);
+  transform:translateY(-2px);
+}
+.cta-btn .arrow{
+  width:24px;height:1.5px;
+  background:currentColor;
+  position:relative;
+  transition:width .4s;
+}
+.cta-btn:hover .arrow{width:36px}
+.cta-btn .arrow::after{
+  content:'';
+  position:absolute;right:0;top:-3px;
+  width:8px;height:8px;
+  border-top:1.5px solid currentColor;
+  border-right:1.5px solid currentColor;
+  transform:rotate(45deg);
+}
+
+/* ─── FOOTER ─────────────────── */
+footer{
+  background:var(--green-deep);
+  color:rgba(245,245,240,.55);
+  padding:80px 48px 32px;
+}
+.foot-top{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:64px;
+  padding-bottom:64px;
+  border-bottom:1px solid var(--line-light);
+}
+.foot-brand{
+  display:flex;flex-direction:column;gap:24px;
+}
+.foot-brand .crest{width:72px;height:auto}
+.foot-brand .name{
+  font-family:'Unbounded',sans-serif;
+  font-size:14px;font-weight:700;
+  letter-spacing:.18em;
+  color:var(--cream);
+  text-transform:uppercase;
+}
+.foot-brand .tag{
+  font-size:13px;
+  font-style:italic;
+  color:rgba(245,245,240,.5);
+  max-width:280px;
+}
+.foot-col h4{
+  font-family:'Manrope',sans-serif;
+  font-size:11px;font-weight:700;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(245,245,240,.4);
+  margin-bottom:20px;
+}
+.foot-col a, .foot-col p{
+  display:block;
+  color:var(--cream);
+  text-decoration:none;
+  font-size:14px;
+  font-weight:400;
+  margin-bottom:10px;
+  transition:color .3s;
+}
+.foot-col a:hover{color:var(--lime)}
+.foot-bottom{
+  padding-top:32px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(245,245,240,.35);
+}
+@media (max-width:780px){
+  footer{padding:60px 24px 24px}
+  .foot-top{grid-template-columns:1fr;gap:40px}
+  .foot-bottom{flex-direction:column;gap:12px;text-align:center}
+}
+
+/* ─── CREST SVG ─────────────────── */
+.crest path, .crest line, .crest circle, .crest polygon, .crest rect, .crest text{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.4;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.crest .fill{fill:currentColor;stroke:none}
+.crest text{
+  fill:currentColor;
+  stroke:none;
+  font-family:'Unbounded',sans-serif;
+  font-weight:700;
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor ring" id="cursor-ring"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#top" class="brand">БОР</a>
+  <ul>
+    <li><a href="#directions">Спорт</a></li>
+    <li><a href="#coaches">Тренеры</a></li>
+    <li><a href="#prices">Цены</a></li>
+    <li><a href="#tournaments">Турниры</a></li>
+    <li><a href="#about">Клуб</a></li>
+  </ul>
+  <a href="https://t.me/padel_tennis_borr" target="_blank" class="cta">Записаться</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <svg class="crest" viewBox="0 0 200 240" style="color:var(--cream)">
+    <!-- Shield outline -->
+    <path d="M100 8 C100 8, 188 28, 188 78 L188 152 C188 196, 144 220, 100 232 C56 220, 12 196, 12 152 L12 78 C12 28, 100 8, 100 8 Z"/>
+    <!-- Inner shield line -->
+    <path d="M100 18 C100 18, 178 36, 178 80 L178 150 C178 188, 138 210, 100 220 C62 210, 22 188, 22 150 L22 80 C22 36, 100 18, 100 18 Z" stroke-width="0.6" opacity="0.4"/>
+    <!-- Tree on top: stacked triangles -->
+    <polygon class="fill" points="100,30 88,52 112,52"/>
+    <polygon class="fill" points="100,42 84,66 116,66"/>
+    <polygon class="fill" points="100,54 80,80 120,80"/>
+    <rect class="fill" x="96" y="80" width="8" height="6"/>
+    <!-- Crossed rackets -->
+    <!-- Tennis racket (left) -->
+    <ellipse cx="62" cy="130" rx="22" ry="28" transform="rotate(-30 62 130)"/>
+    <line x1="46" y1="148" x2="30" y2="180" stroke-width="2.5"/>
+    <!-- Tennis strings (vertical) -->
+    <line x1="50" y1="118" x2="76" y2="135" stroke-width="0.5" opacity="0.6"/>
+    <line x1="55" y1="112" x2="81" y2="129" stroke-width="0.5" opacity="0.6"/>
+    <line x1="60" y1="106" x2="86" y2="123" stroke-width="0.5" opacity="0.6"/>
+    <line x1="44" y1="124" x2="70" y2="141" stroke-width="0.5" opacity="0.6"/>
+    <!-- Tennis strings (horizontal) -->
+    <line x1="48" y1="138" x2="78" y2="120" stroke-width="0.5" opacity="0.6"/>
+    <line x1="52" y1="144" x2="82" y2="126" stroke-width="0.5" opacity="0.6"/>
+    <line x1="56" y1="150" x2="86" y2="132" stroke-width="0.5" opacity="0.6"/>
+    <line x1="42" y1="132" x2="72" y2="114" stroke-width="0.5" opacity="0.6"/>
+    <!-- Padel racket (right) — solid teardrop with holes -->
+    <path d="M138 102 C160 102, 168 118, 162 140 C156 162, 142 162, 132 152 C124 144, 126 124, 138 102 Z" transform="rotate(20 145 132)"/>
+    <line x1="158" y1="148" x2="174" y2="180" stroke-width="2.5"/>
+    <!-- Padel holes -->
+    <circle class="fill" cx="138" cy="118" r="1.5"/>
+    <circle class="fill" cx="148" cy="116" r="1.5"/>
+    <circle class="fill" cx="158" cy="120" r="1.5"/>
+    <circle class="fill" cx="135" cy="130" r="1.5"/>
+    <circle class="fill" cx="146" cy="128" r="1.5"/>
+    <circle class="fill" cx="157" cy="132" r="1.5"/>
+    <circle class="fill" cx="138" cy="142" r="1.5"/>
+    <circle class="fill" cx="149" cy="140" r="1.5"/>
+    <!-- Ball center -->
+    <circle cx="100" cy="156" r="7"/>
+    <path d="M93.5 154 Q100 158 106.5 154" stroke-width="0.7"/>
+    <path d="M93.5 158 Q100 154 106.5 158" stroke-width="0.7"/>
+    <!-- Banner -->
+    <path d="M40 188 L160 188 L150 208 L50 208 Z"/>
+    <text x="100" y="202" text-anchor="middle" font-size="9" letter-spacing="2">ПАДЕЛ · ТЕННИС · БОР</text>
+  </svg>
+
+  <h1>
+    Играй<br>в&nbsp;лесу
+    <span class="accent">Расти как&nbsp;спортсмен</span>
+  </h1>
+  <p class="tagline">Премиальный падел-теннис клуб в&nbsp;сосновом лесу. Один теннисный корт. Один падел-корт. Четыре тренера. Тишина деревьев.</p>
+  <div class="scroll-hint">Прокрутить</div>
+</section>
+
+<!-- ═══ DIRECTIONS ═══ -->
+<section id="directions" style="padding:140px 0 0">
+  <div style="padding:0 48px">
+    <div class="section-label reveal">Два спорта · Одна локация</div>
+    <h2 class="title reveal d1">Корты <span class="it">в&nbsp;тени&nbsp;сосен</span></h2>
+  </div>
+
+  <div class="directions reveal d2" style="margin-top:64px">
+    <a href="#prices" class="dir" style="text-decoration:none;color:inherit">
+      <div class="num">01</div>
+      <div>
+        <div class="name">Падел</div>
+      </div>
+      <div class="desc">Динамика, стены, парный спорт. Один открытый корт международного стандарта.</div>
+      <div class="arrow">→</div>
+    </a>
+    <a href="#prices" class="dir" style="text-decoration:none;color:inherit">
+      <div class="num">02</div>
+      <div>
+        <div class="name">Теннис</div>
+      </div>
+      <div class="desc">Классика большого корта. Открытое покрытие, индивидуальные и групповые тренировки.</div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+</section>
+
+<!-- ═══ COACHES ═══ -->
+<section class="coaches-section" id="coaches">
+  <div class="section-label reveal">Команда тренеров</div>
+  <h2 class="title reveal d1">Те, кто <span class="it">научит играть</span></h2>
+
+  <div class="coaches-grid">
+    <div class="coach reveal d1">
+      <div class="initials">БЕМ</div>
+      <div class="name">Буренина Екатерина</div>
+      <div class="spec">Теннис</div>
+      <ul class="achievements">
+        <li>Топ-10 Сербии до 19 лет</li>
+        <li>Турниры ITF 15k · 25k · 35k</li>
+        <li>Выпускница ГЦОЛИФК</li>
+        <li>Индивидуальные тренировки и подготовка</li>
+      </ul>
+    </div>
+    <div class="coach reveal d2">
+      <div class="initials">КСС</div>
+      <div class="name">Конышев Семён</div>
+      <div class="spec">Теннис · МС</div>
+      <ul class="achievements">
+        <li>Мастер спорта</li>
+        <li>Работал с Е. Весниной и Ю. Путинцевой</li>
+        <li>Сборная Москвы</li>
+        <li>Опыт на турнирах ITF</li>
+      </ul>
+    </div>
+    <div class="coach reveal d3">
+      <div class="initials">МАВ</div>
+      <div class="name">Морозов Александр</div>
+      <div class="spec">Падел · КМС</div>
+      <ul class="achievements">
+        <li>Кандидат в мастера спорта</li>
+        <li>Сборная России по паделу</li>
+        <li>Призёр всероссийских турниров</li>
+        <li>Ученики — призёры РТТ</li>
+      </ul>
+    </div>
+    <div class="coach reveal d4">
+      <div class="initials">ЧИВ</div>
+      <div class="name">Чесных Иван</div>
+      <div class="spec">Теннис · Падел</div>
+      <ul class="achievements">
+        <li>20+ лет тренерского опыта</li>
+        <li>Призёр международных турниров (Европа, США)</li>
+        <li>Главный тренер ТЦ Воскресенск</li>
+        <li>Тренирует и теннис, и падел</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section class="pricing-section" id="prices">
+  <div class="section-label on-dark reveal">Прайс</div>
+  <h2 class="title reveal d1">Цены <span class="it">без воды</span></h2>
+
+  <div class="toggle reveal d2">
+    <button class="active" data-sport="padel" onclick="setSport('padel')">Падел</button>
+    <button data-sport="tennis" onclick="setSport('tennis')">Теннис</button>
+  </div>
+
+  <!-- Single -->
+  <div class="price-row-title reveal">Разовое посещение</div>
+  <div class="price-grid reveal d1">
+    <div class="price-card">
+      <div class="pc-label">Корт</div>
+      <div class="pc-name">Аренда корта</div>
+      <div class="pc-price"><span data-price="court-h">5 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">за 1 час</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Тренер</div>
+      <div class="pc-name">Индивидуальное<br>занятие</div>
+      <div class="pc-price"><span data-price="coach-h">3 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">за 1 час с тренером</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Прокат</div>
+      <div class="pc-name">Ракетка<br>и&nbsp;мячи</div>
+      <div class="pc-price"><span>500</span><span class="cur">₽</span></div>
+      <div class="pc-meta">комплект</div>
+    </div>
+  </div>
+
+  <!-- No coach subscription -->
+  <div class="price-row-title reveal">Абонемент · без тренера</div>
+  <div class="price-grid reveal d1">
+    <div class="price-card">
+      <div class="pc-label">Месяц</div>
+      <div class="pc-name">10 часов корта</div>
+      <div class="pc-price"><span data-price="sub-10">45 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">в&nbsp;течение месяца</div>
+      <div class="pc-save" data-save="sub-10">— 5 000 ₽ выгода</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Сезон</div>
+      <div class="pc-name">30 часов корта</div>
+      <div class="pc-price"><span data-price="sub-30">135 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">в&nbsp;течение сезона</div>
+      <div class="pc-save" data-save="sub-30">— 15 000 ₽ выгода</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Гибко</div>
+      <div class="pc-name">Любой объём<br>под запрос</div>
+      <div class="pc-price"><span>—</span></div>
+      <div class="pc-meta">обсудим в&nbsp;Telegram</div>
+    </div>
+  </div>
+
+  <!-- With coach subscription -->
+  <div class="price-row-title reveal">Абонемент · с&nbsp;тренером</div>
+  <div class="price-grid reveal d1">
+    <div class="price-card">
+      <div class="pc-label">Месяц</div>
+      <div class="pc-name">10 часов с&nbsp;тренером</div>
+      <div class="pc-price"><span data-price="coach-10">72 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">корт + тренер</div>
+      <div class="pc-save" data-save="coach-10">— 8 000 ₽ выгода</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Сезон</div>
+      <div class="pc-name">30 часов с&nbsp;тренером</div>
+      <div class="pc-price"><span data-price="coach-30">216 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">корт + тренер</div>
+      <div class="pc-save" data-save="coach-30">— 24 000 ₽ выгода</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Сплит</div>
+      <div class="pc-name">Делите часы<br>с&nbsp;партнёром</div>
+      <div class="pc-price"><span>×&nbsp;2</span></div>
+      <div class="pc-meta">пополам по&nbsp;цене</div>
+    </div>
+  </div>
+
+  <!-- Groups -->
+  <div class="price-row-title reveal">Групповые занятия</div>
+  <div class="price-grid reveal d1">
+    <div class="price-card">
+      <div class="pc-label">Дуэт</div>
+      <div class="pc-name">2 человека</div>
+      <div class="pc-price"><span data-price="g2">11 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">за&nbsp;занятие · с&nbsp;тренером</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Трио</div>
+      <div class="pc-name">3 человека</div>
+      <div class="pc-price"><span data-price="g3">12 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">за&nbsp;занятие · с&nbsp;тренером</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-label">Четвёрка</div>
+      <div class="pc-name">4 человека</div>
+      <div class="pc-price"><span data-price="g4">13 000</span><span class="cur">₽</span></div>
+      <div class="pc-meta">за&nbsp;занятие · с&nbsp;тренером</div>
+    </div>
+  </div>
+
+  <!-- Tournaments (padel only) -->
+  <div id="tournaments-block" class="reveal">
+    <div class="price-row-title">Турниры · Падел</div>
+    <table class="tournament-table" id="tournaments">
+      <thead>
+        <tr>
+          <th>Формат</th>
+          <th>Длительность</th>
+          <th>Описание</th>
+          <th class="right">Стоимость</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="format" style="color:var(--cream)">6&nbsp;пар</td>
+          <td class="duration" style="color:rgba(245,245,240,.55)">3&nbsp;часа</td>
+          <td class="desc" style="color:rgba(245,245,240,.7)">Камерный формат. Идеально для дружеских встреч и&nbsp;корпоративных событий.</td>
+          <td class="price" style="color:var(--cream)">52&nbsp;000<span class="c" style="color:rgba(245,245,240,.5)">₽</span></td>
+        </tr>
+        <tr>
+          <td class="format" style="color:var(--cream)">8&nbsp;пар</td>
+          <td class="duration" style="color:rgba(245,245,240,.55)">4&nbsp;часа</td>
+          <td class="desc" style="color:rgba(245,245,240,.7)">Стандартный турнирный формат с&nbsp;полноценной сеткой.</td>
+          <td class="price" style="color:var(--cream)">70&nbsp;000<span class="c" style="color:rgba(245,245,240,.5)">₽</span></td>
+        </tr>
+        <tr>
+          <td class="format" style="color:var(--cream)">10&nbsp;пар</td>
+          <td class="duration" style="color:rgba(245,245,240,.55)">5&nbsp;часов</td>
+          <td class="desc" style="color:rgba(245,245,240,.7)">Расширенный формат. Включает разогрев, групповой этап, плей-офф.</td>
+          <td class="price" style="color:var(--cream)">87&nbsp;000<span class="c" style="color:rgba(245,245,240,.5)">₽</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="repost-badge reveal">
+    <div>
+      <div class="rb-text"><span class="num">−7%</span> &nbsp;за репост в соцсетях</div>
+      <div class="rb-sub">Поделитесь страницей клуба или&nbsp;турниром в&nbsp;своей ленте — получите скидку на&nbsp;любой абонемент.</div>
+    </div>
+    <a href="https://t.me/padel_tennis_borr" target="_blank" style="color:var(--lime);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--lime);padding-bottom:4px">Получить →</a>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="about-section" id="about">
+  <div class="section-label on-dark reveal">О клубе</div>
+  <h2 class="title reveal d1">Место <span class="it">силы</span></h2>
+
+  <div class="about-grid" style="margin-top:64px">
+    <div class="reveal d1">
+      <p><strong>БОР</strong> — это не просто корты. Это лесная локация, где звук мяча сливается со&nbsp;скрипом сосен, а&nbsp;тренировка превращается в&nbsp;ритуал.</p>
+      <p>Один падел-корт международного стандарта. Один теннисный корт. Четыре тренера с&nbsp;опытом сборных и&nbsp;ITF. Никаких очередей, никакой суеты.</p>
+      <p>Мы строили клуб для тех, кто хочет играть всерьёз — но&nbsp;в&nbsp;тишине, на&nbsp;воздухе, без&nbsp;стеклянных потолков и&nbsp;кондиционеров.</p>
+    </div>
+    <div class="reveal d2">
+      <div class="facts">
+        <div class="fact"><div class="num">2</div><div class="lbl">Открытых корта</div></div>
+        <div class="fact"><div class="num">4</div><div class="lbl">Тренера</div></div>
+        <div class="fact"><div class="num">15h</div><div class="lbl">Открыты ежедневно</div></div>
+        <div class="fact"><div class="num">∞</div><div class="lbl">Сосен вокруг</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+  <div class="section-label reveal" style="justify-content:center">Запись</div>
+  <h2 class="reveal d1">Начни <span class="it">в&nbsp;этот сезон</span></h2>
+  <p class="lead reveal d2">Запись на&nbsp;корт и&nbsp;тренировки — через Telegram. Ответим в&nbsp;течение часа в&nbsp;рабочее время.</p>
+  <a href="https://t.me/padel_tennis_borr" target="_blank" class="cta-btn reveal d3">
+    <span>Написать в&nbsp;Telegram</span>
+    <span class="arrow"></span>
+  </a>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <svg class="crest" viewBox="0 0 200 240" style="color:var(--cream)">
+        <path d="M100 8 C100 8, 188 28, 188 78 L188 152 C188 196, 144 220, 100 232 C56 220, 12 196, 12 152 L12 78 C12 28, 100 8, 100 8 Z"/>
+        <polygon class="fill" points="100,30 88,52 112,52"/>
+        <polygon class="fill" points="100,42 84,66 116,66"/>
+        <polygon class="fill" points="100,54 80,80 120,80"/>
+        <rect class="fill" x="96" y="80" width="8" height="6"/>
+        <ellipse cx="62" cy="130" rx="22" ry="28" transform="rotate(-30 62 130)"/>
+        <line x1="46" y1="148" x2="30" y2="180" stroke-width="2.5"/>
+        <path d="M138 102 C160 102, 168 118, 162 140 C156 162, 142 162, 132 152 C124 144, 126 124, 138 102 Z" transform="rotate(20 145 132)"/>
+        <line x1="158" y1="148" x2="174" y2="180" stroke-width="2.5"/>
+        <circle class="fill" cx="138" cy="118" r="1.5"/>
+        <circle class="fill" cx="148" cy="116" r="1.5"/>
+        <circle class="fill" cx="158" cy="120" r="1.5"/>
+        <circle class="fill" cx="135" cy="130" r="1.5"/>
+        <circle class="fill" cx="146" cy="128" r="1.5"/>
+        <circle class="fill" cx="157" cy="132" r="1.5"/>
+        <circle cx="100" cy="156" r="7"/>
+      </svg>
+      <div class="name">Падел-Теннис БОР</div>
+      <div class="tag">Играй в&nbsp;лесу. Расти как&nbsp;спортсмен.</div>
+    </div>
+    <div class="foot-col">
+      <h4>Контакты</h4>
+      <a href="https://padeltennisbor.ru" target="_blank">padeltennisbor.ru</a>
+      <a href="https://t.me/padel_tennis_borr" target="_blank">@padel_tennis_borr</a>
+      <p style="color:rgba(245,245,240,.5);font-size:12px;margin-top:14px">Открытые корты<br>в лесной локации</p>
+    </div>
+    <div class="foot-col">
+      <h4>Разделы</h4>
+      <a href="#coaches">Тренеры</a>
+      <a href="#prices">Цены</a>
+      <a href="#tournaments">Турниры</a>
+      <a href="#about">О клубе</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div>© 2026 Падел-Теннис БОР</div>
+    <div>Создано в&nbsp;тишине леса</div>
+  </div>
+</footer>
+
+<script>
+/* ─── CUSTOM CURSOR ─────────────────── */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0, my=0, rx=0, ry=0;
+
+window.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx+'px';
+  cursor.style.top = my+'px';
+});
+
+function loop(){
+  rx += (mx - rx) * 0.18;
+  ry += (my - ry) * 0.18;
+  ring.style.left = rx+'px';
+  ring.style.top = ry+'px';
+  requestAnimationFrame(loop);
+}
+loop();
+
+// detect dark sections under cursor
+const darkSections = document.querySelectorAll('.hero, .pricing-section, .about-section, footer');
+function checkDark(){
+  let onDark = false;
+  for (const s of darkSections){
+    const r = s.getBoundingClientRect();
+    if (my >= r.top && my <= r.bottom){ onDark = true; break; }
+  }
+  cursor.classList.toggle('on-dark', onDark);
+  ring.classList.toggle('on-dark', onDark);
+  requestAnimationFrame(checkDark);
+}
+checkDark();
+
+// hover grow
+document.querySelectorAll('a, button, .dir, .coach, .price-card, .repost-badge a, .cta-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width='28px'; cursor.style.height='28px';
+    ring.style.width='0'; ring.style.height='0'; ring.style.opacity='0';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width='14px'; cursor.style.height='14px';
+    ring.style.width='36px'; ring.style.height='36px'; ring.style.opacity='1';
+  });
+});
+
+/* ─── REVEAL ON SCROLL ─────────────────── */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, {threshold:0.12, rootMargin:'-40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ─── PRICE TOGGLE ─────────────────── */
+const PRICES = {
+  padel: {
+    'court-h':'5 000', 'coach-h':'3 000',
+    'sub-10':'45 000', 'sub-30':'135 000',
+    'coach-10':'72 000', 'coach-30':'216 000',
+    'g2':'11 000','g3':'12 000','g4':'13 000',
+    saves: {'sub-10':'5 000','sub-30':'15 000','coach-10':'8 000','coach-30':'24 000'}
+  },
+  tennis: {
+    'court-h':'4 000', 'coach-h':'3 000',
+    'sub-10':'36 000', 'sub-30':'108 000',
+    'coach-10':'63 000', 'coach-30':'189 000',
+    'g2':'10 000','g3':'11 000','g4':'12 000',
+    saves: {'sub-10':'4 000','sub-30':'12 000','coach-10':'7 000','coach-30':'21 000'}
+  }
+};
+
+function setSport(sport){
+  const data = PRICES[sport];
+  document.querySelectorAll('[data-price]').forEach(el => {
+    const k = el.dataset.price;
+    if (data[k]) el.textContent = data[k];
+  });
+  document.querySelectorAll('[data-save]').forEach(el => {
+    const k = el.dataset.save;
+    if (data.saves[k]) el.textContent = '— ' + data.saves[k] + ' ₽ выгода';
+  });
+  document.querySelectorAll('.toggle button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.sport === sport);
+  });
+  // Tournaments only for padel
+  document.getElementById('tournaments-block').style.display = sport==='padel' ? '' : 'none';
+}
+</script>
+
+</body>
+</html>
